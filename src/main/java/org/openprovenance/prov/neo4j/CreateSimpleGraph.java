@@ -12,6 +12,10 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 
+/* This class is used to create a static simple graph in neo4j database by using REST API.
+   All the method provied in this class can be apply to Neo4jConstrutor that convert PROV document into neo4j data directly.
+*/
+
 public class CreateSimpleGraph
 {
     private static final String SERVER_ROOT_URI = "http://localhost:7474/db/data/";
@@ -19,6 +23,7 @@ public class CreateSimpleGraph
 
     public static void main( String[] args ) throws URISyntaxException
     {
+    /* Main method. draw a static graph in neo4j database.*/
         checkDatabaseIsRunning();
 
         // START SNIPPET: nodesAndProps
@@ -37,55 +42,26 @@ public class CreateSimpleGraph
 
         // START SNIPPET: addMetaToRel
        Map<String,String> property=new HashMap<String,String>();
-		
+
 		property.put("timestamp", "20120116");
 		property.put("title", "test_title6");
-		
-		
+
+
 		addMetadataToProperty(relationshipUri,property);
         // END SNIPPET: addMetaToRel
 
         // START SNIPPET: queryForSingers
-     //   findSingersInBands( firstNode );
+        //   findSingersInBands( firstNode );
         // END SNIPPET: queryForSingers
     }
 
-//    private static void findSingersInBands( URI startNode )
-//            throws URISyntaxException
-//    {
-//        // START SNIPPET: traversalDesc
-//        // TraversalDescription turns into JSON to send to the Server
-//        TraversalDescription t = new TraversalDescription();
-//        t.setOrder( TraversalDescription.DEPTH_FIRST );
-//        t.setUniqueness( TraversalDescription.NODE );
-//        t.setMaxDepth( 10 );
-//        t.setReturnFilter( TraversalDescription.ALL );
-//        t.setRelationships( new Relationship( "singer", Relationship.OUT ) );
-//        // END SNIPPET: traversalDesc
-//
-//        // START SNIPPET: traverse
-//        URI traverserUri = new URI( startNode.toString() + "/traverse/node" );
-//        WebResource resource = Client.create()
-//                .resource( traverserUri );
-//        String jsonTraverserPayload = t.toJson();
-//        ClientResponse response = resource.accept( MediaType.APPLICATION_JSON )
-//                .type( MediaType.APPLICATION_JSON )
-//                .entity( jsonTraverserPayload )
-//                .post( ClientResponse.class );
-//
-//        System.out.println( String.format(
-//                "POST [%s] to [%s], status code [%d], returned data: "
-//                        + System.getProperty( "line.separator" ) + "%s",
-//                jsonTraverserPayload, traverserUri, response.getStatus(),
-//                response.getEntity( String.class ) ) );
-//        response.close();
-//        // END SNIPPET: traverse
-//    }
 
     // START SNIPPET: insideAddMetaToProp
-	public static void addMetadataToProperty( URI relationshipUri,
+
+    public static void addMetadataToProperty( URI relationshipUri,
             Map<String,String> property) throws URISyntaxException
     {
+    /* Method that add property to a existing node.*/
         URI propertyUri = new URI( relationshipUri.toString() + "/properties" );
         String entity = toJsonNameValuePairCollection( property );
         WebResource resource = Client.create()
@@ -100,33 +76,30 @@ public class CreateSimpleGraph
                 response.getStatus() ) );
         response.close();
     }
-	
-	
 
-	private static String toJsonNameValuePairCollection(Map<String,String> property){
-		
+    private static String toJsonNameValuePairCollection(Map<String,String> property){
+
 		Set<String> keys=property.keySet();
 		Iterator<String> iter=keys.iterator();
 		String outPut="{ ";
 		while(iter.hasNext()){
 			String key=iter.next();
 			String value=property.get(key);
-			
+
 			outPut+="\""+key+"\" : \""+value+"\"";
 			if(iter.hasNext()){
 				outPut+=", ";
 			}
 		}
 		outPut+="}";
-		
-//		return "{ \"timestamp\" : \"20120113\", \"title\" : \"test_title3\"}";
-		
+
 		return outPut;
 
 	}
 
     public static URI createNode()
     {
+    /* Method that create a node in neo4j database*/
         // START SNIPPET: createNode
         final String nodeEntryPointUri = SERVER_ROOT_URI + "node";
         // http://localhost:7474/db/data/node
@@ -149,31 +122,31 @@ public class CreateSimpleGraph
         // END SNIPPET: createNode
     }
     
-    public static void addNodeToIndex( String key, String value, URI nodeUri){
-		final String indexNodeUri = SERVER_ROOT_URI + "index/node/index" ;
-		WebResource resource = Client.create().resource(indexNodeUri);
-		String indexNodeJson = "{\"key\" : \"" + key + "\", \"value\" : \"" + value + "\", \"uri\" : \"" + nodeUri + "\" }";
+    public static void addNodeToIndex( String key, String value, URI nodeUri)
+    {
+    /* Method that add the new node to neo4j index. */
+	final String indexNodeUri = SERVER_ROOT_URI + "index/node/index" ;
+	WebResource resource = Client.create().resource(indexNodeUri);
+	String indexNodeJson = "{\"key\" : \"" + key + "\", \"value\" : \"" + value + "\", \"uri\" : \"" + nodeUri + "\" }";
 
-		ClientResponse response = resource.accept(MediaType.APPLICATION_JSON)
-				.type(MediaType.APPLICATION_JSON).entity(indexNodeJson)
-				.post(ClientResponse.class);
-		
-		 System.out.println( String.format(
-		 "POST [%s] to [%s], status code [%d], returned data: "
-		 + System.getProperty( "line.separator" ) + "%s",
-		 indexNodeJson, indexNodeUri, response.getStatus(),
+	ClientResponse response = resource.accept(MediaType.APPLICATION_JSON)
+			.type(MediaType.APPLICATION_JSON).entity(indexNodeJson)
+			.post(ClientResponse.class);
+
+        System.out.println( String.format(
+		"POST [%s] to [%s], status code [%d], returned data: "
+		+ System.getProperty( "line.separator" ) + "%s",
+	         indexNodeJson, indexNodeUri, response.getStatus(),
 		 response.getEntity( String.class ) ));
-
-		response.close();
-
-		
-	}
+        response.close();
+   }
 
     // START SNIPPET: insideAddRel
     public static URI addRelationship( URI startNode, URI endNode,
             String relationshipType)
             throws URISyntaxException
     {
+    /* Method that add relationship for two existing node. */
         URI fromUri = new URI( startNode.toString() + "/relationships" );
         String relationshipJson = generateJsonRelationship( endNode,
                 relationshipType);
@@ -199,6 +172,7 @@ public class CreateSimpleGraph
     public static String generateJsonRelationship( URI endNode,
             String relationshipType, String... jsonAttributes )
     {
+    /* Method generate JSON relationships. */
         StringBuilder sb = new StringBuilder();
         sb.append( "{ \"to\" : \"" );
         sb.append( endNode.toString() );
@@ -230,6 +204,7 @@ public class CreateSimpleGraph
     public static void addProperty( URI nodeUri, String propertyName,
             String propertyValue )
     {
+    /* Method add property to a node */
         // START SNIPPET: addProp
         String propertyUri = nodeUri.toString() + "/properties/" + propertyName;
         // http://localhost:7474/db/data/node/{node_id}/properties/{property_name}
@@ -249,6 +224,7 @@ public class CreateSimpleGraph
 
     public static void checkDatabaseIsRunning()
     {
+    /* Method check the neo4j database is running. */
         // START SNIPPET: checkServer
         WebResource resource = Client.create()
                 .resource( SERVER_ROOT_URI );
@@ -260,5 +236,3 @@ public class CreateSimpleGraph
         // END SNIPPET: checkServer
     }
 }
-
-

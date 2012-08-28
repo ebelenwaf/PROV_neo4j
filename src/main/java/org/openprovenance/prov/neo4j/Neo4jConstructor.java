@@ -13,6 +13,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.lang.String;
 
+/* This class is used to convert PROV document to neo4j data.
+   It use the REST API method provied in java class CreateSimpleGraph.*/
     public class Neo4jConstructor implements TreeConstructor {
 	int i=0;
     public String genId() {
@@ -40,6 +42,7 @@ import java.lang.String;
 
 
     public Object convertActivity(Object id,Object startTime,Object endTime, Object aAttrs) {
+    // This method convert PROV concept activity to neo4j node.
         String s="" + id + "";
         String st="" + optional(startTime) + "";
         String et="" + optional(endTime) + "";   
@@ -75,7 +78,8 @@ import java.lang.String;
 
 
 
-    public Object convertEntity(Object id, Object attrs) {       
+    public Object convertEntity(Object id, Object attrs) {   
+    // This method convert PROV concept entity to neo4j node.    
         String s="" + id  + "";
         URI firstNode = CreateSimpleGraph.createNode();	
         CreateSimpleGraph.addNodeToIndex( "id", s, firstNode);
@@ -108,6 +112,7 @@ import java.lang.String;
 
 
     public Object convertAgent(Object id, Object attrs) {
+    // This method convert PROV concept agent to neo4j node.
         String s="" + id  + "";
         URI firstNode = CreateSimpleGraph.createNode();	
         CreateSimpleGraph.addNodeToIndex( "id", s, firstNode);
@@ -196,6 +201,7 @@ import java.lang.String;
 
 
     public Object convertUsed(Object id, Object id2,Object id1, Object time, Object aAttrs) {
+    // This method convert PROV concept used to neo4j relationship.
         String s="" + time + "";
         String t1="" + id  + "";
         String t2="" + id2  + "";
@@ -246,6 +252,7 @@ import java.lang.String;
 
 
     public Object convertWasGeneratedBy(Object id, Object id2,Object id1, Object time, Object aAttrs ) {
+    // This method convert PROV concept wasGeneratedBy to neo4j relationship.
        String s="" + time + "";
        String t="" + id2 + "";
        String u="" + id1 + "";
@@ -290,6 +297,7 @@ import java.lang.String;
 
 
     public Object convertWasStartedBy(Object id, Object id2,Object id1, Object id3, Object time, Object aAttrs) {
+    // This method convert PROV concept wasStartedBy to neo4j relationship.
        String s="" + time + "";
        String t="" + id2 + "";
        String u="" + id1 + "";
@@ -330,6 +338,7 @@ import java.lang.String;
 
 
     public Object convertWasEndedBy(Object id, Object id2,Object id1, Object id3, Object time, Object aAttrs) {
+    // This method convert PROV concpet wasEndedBy to neo4j relationship.
        String s="" + time + "";
        String t="" + id2 + "";
        String u="" + id1 + "";
@@ -369,6 +378,7 @@ import java.lang.String;
 
 
     public Object convertWasInformedBy(Object id, Object id2, Object id1, Object aAttrs) {  
+    // This method convert PROV concept wasInformedBy to neo4j relationship.
       String s="" + id2 + ""; 
       String t="" + id1 + ""; 
       String v="" + aAttrs + "";
@@ -405,6 +415,7 @@ import java.lang.String;
 
 
     public Object convertWasInvalidatedBy(Object id, Object id2,Object id1, Object time, Object aAttrs ) {
+    // This method convert PROV concept wasInvalidatedBy to neo4j relationship.
        String s="" + time + "";
        String t="" + id2 + "";
        String u="" + id1 + "";
@@ -447,6 +458,7 @@ import java.lang.String;
 
 
     public Object convertWasAttributedTo(Object id, Object id2,Object id1, Object gAttrs) {
+    // This method convert PROV concept wasAttributedTo to neo4j relationship.
        String s="" + id2 + "";
        String t="" + id1 + "";
        Map<String,String> property=new HashMap<String,String>();		
@@ -481,7 +493,8 @@ import java.lang.String;
     }
 
 
-    public Object convertWasDerivedFrom(Object id, Object id2,Object id1, Object pe, Object g2, Object u1, Object aAttrs) {    
+    public Object convertWasDerivedFrom(Object id, Object id2,Object id1, Object pe, Object g2, Object u1, Object aAttrs) {  
+    // This method convert PROV concept wasDerivedFrom to neo4j relationship.  
      String o="" + id2 + "";
      String p="" + id1 + "";
      String s="" + pe + "";
@@ -525,6 +538,7 @@ import java.lang.String;
 
 
     public Object convertAlternateOf(Object id2, Object id1) {
+    // This method convert PROV concept alternateOf to neo4j relationship.
      String s="" + id2 + "";
      String t="" + id1 + ""; 
      Map<String,String> property=new HashMap<String,String>();
@@ -543,6 +557,7 @@ import java.lang.String;
 
 
     public Object convertSpecializationOf(Object id2, Object id1) {
+    // This method convert PROV concept specializationOf to neo4j relationship
      String s="" + id2 + "";
      String t="" + id1 + ""; 
      Map<String,String> property=new HashMap<String,String>();
@@ -561,6 +576,7 @@ import java.lang.String;
 
 
     public Object convertActedOnBehalfOf(Object id, Object id2,Object id1, Object a, Object aAttrs) {
+    // This method convert PROV concept actedOnBehalfOf to neo4j relationship.
        String s="" + id2 + "";
        String t="" + id1 + "";
        String u="" + a + "";
@@ -598,6 +614,7 @@ import java.lang.String;
 
 
     public Object convertWasAssociatedWith(Object id, Object id2,Object id1, Object pl, Object aAttrs) {
+    // This method convert PROV concept wasAssociatedWith to neo4j relationship.
         String s="" + pl + "";
         String t="" + id2 + "";
         String u="" + id1 + "";
@@ -637,6 +654,7 @@ import java.lang.String;
 
 
     public Object convertWasRevisionOf(Object id, Object id2,Object id1, Object pe, Object q2, Object q1, Object dAttrs) {
+    // This method convert PROV concept wasRevisionOf to neo4j relationship.
      String s="" + id2 + "";
      String t="" + id1 + "";
      Map<String,String> property=new HashMap<String,String>();
@@ -675,6 +693,7 @@ import java.lang.String;
 
 
     public Object convertWasQuotedFrom(Object id, Object id2,Object id1, Object pe, Object q2, Object q1, Object dAttrs) {
+    // This method convert PROV concept wasQuotedFrom to neo4j relationship.
      String o="" + id2 + "";    
      String s="" + id1 + "";
      Map<String,String> property=new HashMap<String,String>();
@@ -713,6 +732,7 @@ import java.lang.String;
 
 
     public Object convertHadOriginalSource(Object id, Object id2,Object id1, Object pe, Object q2, Object q1, Object dAttrs) {
+    // This method convert PROV concept hadOriginalSource to neo4j relationship.
       String s="" + id2 + "";    
       String t="" + id1 + "";
       Map<String,String> property=new HashMap<String,String>();
@@ -751,6 +771,7 @@ import java.lang.String;
 
 
     public Object convertTracedTo(Object id, Object id2, Object id1, Object dAttrs) {
+    // This method convert PROV concept tracedTo to neo4j relationship.
       String s="" + id2 + "";    
       String t="" + id1 + "";
       Map<String,String> property=new HashMap<String,String>();
@@ -792,6 +813,7 @@ import java.lang.String;
     }
 
     public Object convertWasInfluencedBy(Object id, Object id2, Object id1, Object dAttrs) {
+    // This method convert PROV concept wasInfluencedBy to neo4j relationship.
       String s="" + id2 + "";    
       String t="" + id1 + "";
       Map<String,String> property=new HashMap<String,String>();
@@ -864,14 +886,9 @@ import java.lang.String;
     }
    /* Component 5 */
 
-    /*public Object convertInsertion(Object id, Object id2, Object id1, Object map, Object dAttrs) {
-        //todo
-        throw new UnsupportedOperationException();
-    }*/
-
-  
 
     public Object convertInsertion(Object id, Object id2, Object id1, Object map, Object dAttrs) { 
+    // This method convert PROV concept wasDerivedByInsertion to neo4j relationship.
     Map<String,String> property=new HashMap<String,String>();		
     String s="" + map + "";
     String t="" + id2 + "";     
@@ -931,17 +948,6 @@ import java.lang.String;
         return s;
     }  
 
-    /*public Object convertEntry(Object o1, Object o2) {
-        //todo
-        throw new UnsupportedOperationException();
-    }
-
-
-    public Object convertKeyEntitySet(List<Object> o) {
-        //todo
-        throw new UnsupportedOperationException();
-    }*/
-
 
     public Object convertRemoval(Object id, Object id2, Object id1, Object keys, Object dAttrs) {
         //todo
@@ -980,7 +986,8 @@ import java.lang.String;
    /* Component 6 */
 
 
-  public Object convertNote(Object id, Object attrs) {       
+  public Object convertNote(Object id, Object attrs) {    
+  // This method convert PROV concept note to neo4j node.   
         String s="" + id  + "";
         URI firstNode = CreateSimpleGraph.createNode();	
         CreateSimpleGraph.addProperty(firstNode, "type", "note"); 
@@ -1012,6 +1019,7 @@ import java.lang.String;
 
 
   public Object convertHasAnnotation(Object something, Object note) {
+  // This method convert PROV concept hasAnnotation to neo4j relationship.
     Map<String,String> property=new HashMap<String,String>();		
     String s="" + something + "";
     String t="" + note + "";     
@@ -1037,6 +1045,7 @@ import java.lang.String;
 
 
   public Object convertContextualizationOf(Object su, Object bu, Object ta) {
+  // This method convert PROV concept contextualizationOf to neo4j relationship.
      String s="" + su + "";
      String t="" + bu + "";
      String u="" + ta + "";
@@ -1055,7 +1064,8 @@ import java.lang.String;
 
     }  
 
- public Object convertMentionOf(Object su, Object bu, Object ta) {
+  public Object convertMentionOf(Object su, Object bu, Object ta) {
+  // This method convert PROV concept mentionOf to neo4j relationship.
      String s="" + su + "";
      String t="" + bu + "";
      String u="" + ta + "";

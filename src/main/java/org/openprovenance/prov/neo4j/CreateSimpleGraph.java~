@@ -37,11 +37,11 @@ public class CreateSimpleGraph
 
         // START SNIPPET: addMetaToRel
        Map<String,String> property=new HashMap<String,String>();
-		
+
 		property.put("timestamp", "20120116");
 		property.put("title", "test_title6");
-		
-		
+
+
 		addMetadataToProperty(relationshipUri,property);
         // END SNIPPET: addMetaToRel
 
@@ -50,37 +50,6 @@ public class CreateSimpleGraph
         // END SNIPPET: queryForSingers
     }
 
-//    private static void findSingersInBands( URI startNode )
-//            throws URISyntaxException
-//    {
-//        // START SNIPPET: traversalDesc
-//        // TraversalDescription turns into JSON to send to the Server
-//        TraversalDescription t = new TraversalDescription();
-//        t.setOrder( TraversalDescription.DEPTH_FIRST );
-//        t.setUniqueness( TraversalDescription.NODE );
-//        t.setMaxDepth( 10 );
-//        t.setReturnFilter( TraversalDescription.ALL );
-//        t.setRelationships( new Relationship( "singer", Relationship.OUT ) );
-//        // END SNIPPET: traversalDesc
-//
-//        // START SNIPPET: traverse
-//        URI traverserUri = new URI( startNode.toString() + "/traverse/node" );
-//        WebResource resource = Client.create()
-//                .resource( traverserUri );
-//        String jsonTraverserPayload = t.toJson();
-//        ClientResponse response = resource.accept( MediaType.APPLICATION_JSON )
-//                .type( MediaType.APPLICATION_JSON )
-//                .entity( jsonTraverserPayload )
-//                .post( ClientResponse.class );
-//
-//        System.out.println( String.format(
-//                "POST [%s] to [%s], status code [%d], returned data: "
-//                        + System.getProperty( "line.separator" ) + "%s",
-//                jsonTraverserPayload, traverserUri, response.getStatus(),
-//                response.getEntity( String.class ) ) );
-//        response.close();
-//        // END SNIPPET: traverse
-//    }
 
     // START SNIPPET: insideAddMetaToProp
 	public static void addMetadataToProperty( URI relationshipUri,
@@ -100,27 +69,27 @@ public class CreateSimpleGraph
                 response.getStatus() ) );
         response.close();
     }
-	
-	
+
+
 
 	private static String toJsonNameValuePairCollection(Map<String,String> property){
-		
+
 		Set<String> keys=property.keySet();
 		Iterator<String> iter=keys.iterator();
 		String outPut="{ ";
 		while(iter.hasNext()){
 			String key=iter.next();
 			String value=property.get(key);
-			
+
 			outPut+="\""+key+"\" : \""+value+"\"";
 			if(iter.hasNext()){
 				outPut+=", ";
 			}
 		}
 		outPut+="}";
-		
+
 //		return "{ \"timestamp\" : \"20120113\", \"title\" : \"test_title3\"}";
-		
+
 		return outPut;
 
 	}
@@ -157,7 +126,7 @@ public class CreateSimpleGraph
 		ClientResponse response = resource.accept(MediaType.APPLICATION_JSON)
 				.type(MediaType.APPLICATION_JSON).entity(indexNodeJson)
 				.post(ClientResponse.class);
-		
+
 		 System.out.println( String.format(
 		 "POST [%s] to [%s], status code [%d], returned data: "
 		 + System.getProperty( "line.separator" ) + "%s",
@@ -166,7 +135,7 @@ public class CreateSimpleGraph
 
 		response.close();
 
-		
+
 	}
 
     // START SNIPPET: insideAddRel
@@ -260,5 +229,3 @@ public class CreateSimpleGraph
         // END SNIPPET: checkServer
     }
 }
-
-

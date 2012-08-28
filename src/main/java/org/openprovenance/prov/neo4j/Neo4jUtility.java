@@ -22,7 +22,7 @@ import org.openprovenance.prov.xml.ProvSerialiser;
 import org.openprovenance.prov.xml.Bundle;
 import org.openprovenance.prov.xml.BeanTraversal;
 
-
+/* This class extend utility and use java class Neo4jConstructor. */
 public  class Neo4jUtility extends Utility {
 
     public String convertTreeToNeo4j(CommonTree tree) {
